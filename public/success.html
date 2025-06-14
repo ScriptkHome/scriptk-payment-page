@@ -5,11 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تم الدفع بنجاح</title>
   <style>
-    body {
-      text-align: center;
+     body {
       font-family: Arial, sans-serif;
-      margin-top: 50px;
-      padding: 20px;
+      text-align: center;
+      margin-top: 60px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      color: #28a745;
+    }
+    p {
+      font-size: 18px;
+      color: #333;
+    }
+    .btn {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
+      color: white;
+      background-color: #0088cc;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #0077b3;
     }
     #code {
       font-size: 20px;
@@ -23,7 +45,10 @@
   <h1>✅ تم الدفع بنجاح</h1>
   <p>انسخ هذا الرمز وأرسله للبوت في تيليجرام:</p>
   <p id="code">جارٍ التحميل...</p>
-
+  <a class="btn" href="https://t.me/YOUR_BOT_USERNAME" target="_blank">
+    فتح البوت في تيليجرام
+  </a>
+  
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get("session_id");
