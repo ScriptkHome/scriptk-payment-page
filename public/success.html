@@ -1,1 +1,38 @@
-تم الدفع بنجاح
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تم الدفع بنجاح</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 50px;
+      padding: 20px;
+    }
+    #code {
+      font-size: 20px;
+      color: green;
+      margin-top: 20px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ تم الدفع بنجاح</h1>
+  <p>انسخ هذا الرمز وأرسله للبوت في تيليجرام:</p>
+  <p id="code">جارٍ التحميل...</p>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get("session_id");
+
+    if (sessionId) {
+      document.getElementById("code").innerText = sessionId;
+    } else {
+      document.getElementById("code").innerText = "لم يتم العثور على رمز.";
+    }
+  </script>
+</body>
+</html>
