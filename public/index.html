@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>شراء سكربت فورتنايت</title>
   <script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -17,26 +17,23 @@
   <p id="code" style="font-size:18px; color:green; margin-top:20px;"></p>
 
   <script>
-    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // حط مفتاحك العام هنا
+    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // 🔑 حط مفتاحك العام من Stripe
 
     document.getElementById("checkout-button").addEventListener("click", () => {
-      fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/create-checkout-session", {
+      fetch("https://your-replit-name.replit.app/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
       .then(res => res.json())
       .then(session => {
-        // نعرض للمستخدم الرمز قبل التحويل (إجراء ذكي)
         document.getElementById("code").innerText =
-          "بعد الدفع، انسخ هذا الرمز وأرسله للبوت: " + session.id;
-
-        // بعدها نحوله لصفحة الدفع
+          "بعد الدفع، انسخ هذا الرمز وأرسله للبوت في تيليجرام: " + session.id;
         return stripe.redirectToCheckout({ sessionId: session.id });
       })
       .catch(err => {
-      console.error(err);
-      alert("❌ حدث خطأ أثناء الاتصال بالخادم. حاول مجددًا لاحقًا.");
-});
+        console.error(err);
+        alert("❌ حدث خطأ أثناء الاتصال بالخادم.");
+      });
     });
   </script>
 </body>
