@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>شراء سكربت فورتنايت</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body style="text-align:center; font-family:Arial;margin-top:50px;">
+  <h1>سكربت فورتنايت 2025 - برمجة شخصية</h1>
+  <h2>السعر: 10 SAR</h2>
+
+  <button id="checkout-button" style="padding:15px 30px; font-size:18px;">
+    ادفع عبر Apple Pay / البطاقة
+  </button>
+
+  <script>
+    const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY_HERE');
+
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(res => res.json())
+      .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
+      .catch(err => alert('خطأ في الدفع: ' + err.message));
+    });
+  </script>
+</body>
+</html>
