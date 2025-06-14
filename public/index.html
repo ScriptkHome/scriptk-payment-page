@@ -6,24 +6,33 @@
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body style="text-align:center; font-family:Arial;margin-top:50px;">
-  <h1>سكربت فورتنايت 2025 - برمجة شخصية</h1>
-  <h2>السعر: 10 SAR</h2>
+  <h1>✅ سكربت فورتنايت 2025 - برمجة شخصية</h1>
+  <h2>السعر: 10 ريال</h2>
 
   <button id="checkout-button" style="padding:15px 30px; font-size:18px;">
-    ادفع عبر Apple Pay / البطاقة
+    الدفع الآن
   </button>
 
+  <p id="code" style="font-size:18px; color:green; margin-top:20px;"></p>
+
   <script>
-    const stripe = Stripe('pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP'); // استبدل هنا بمفتاحك العام
+    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // حط مفتاحك العام هنا
 
     document.getElementById("checkout-button").addEventListener("click", () => {
-      fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/create-checkout-session", {
+      fetch("https://YOUR-REPLIT-URL/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
       .then(res => res.json())
-      .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
-      .catch(err => alert('خطأ في الدفع: ' + err.message));
+      .then(session => {
+        // نعرض للمستخدم الرمز قبل التحويل (إجراء ذكي)
+        document.getElementById("code").innerText =
+          "بعد الدفع، انسخ هذا الرمز وأرسله للبوت: " + session.id;
+
+        // بعدها نحوله لصفحة الدفع
+        return stripe.redirectToCheckout({ sessionId: session.id });
+      })
+      .catch(err => alert("خطأ في الدفع: " + err.message));
     });
   </script>
 </body>
