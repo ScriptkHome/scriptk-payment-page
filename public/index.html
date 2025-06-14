@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>شراء سكربت فورتنايت</title>
   <script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -32,7 +33,10 @@
         // بعدها نحوله لصفحة الدفع
         return stripe.redirectToCheckout({ sessionId: session.id });
       })
-      .catch(err => alert("خطأ في الدفع: " + err.message));
+      .catch(err => {
+      console.error(err);
+      alert("❌ حدث خطأ أثناء الاتصال بالخادم. حاول مجددًا لاحقًا.");
+});
     });
   </script>
 </body>
