@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8" />
-<title>شراء السكربت</title>
-<script src="https://www.paypal.com/sdk/js?client-id=AY84vwqpeb1Bs4J6PZszasqaZz8MXSYOtGahrIVMsI2ta-UiEAKdrV3jmECUa3AhsCnyVzW5LnZrOt6o&currency=USD"></script>
+  <meta charset="UTF-8" />
+  <title>شراء السكربت</title>
+  <script src="https://www.paypal.com/sdk/js?client-id=AY84vwqpeb1Bs4J6PZszasqaZz8MXSYOtGahrIVMsI2ta-UiEAKdrV3jmECUa3AhsCnyVzW5LnZrOt6o&currency=USD"></script>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
-<h1>شراء سكربت بسعر 10$</h1>
-<div id="paypal-button-container"></div>
-<p id="code" style="color:green; font-size:20px; margin-top:20px;"></p>
+  <h1>شراء سكربت بسعر 10$</h1>
+  <div id="paypal-button-container"></div>
 
-<script>
-paypal.Buttons({
-  createOrder: function(data, actions) {
-    return actions.order.create({
-      purchase_units: [{ amount: { value: '10.00' } }]
-    });
-  },
-  onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-      // طلب توليد كود من سيرفرك
-    fetch("/generate-code", { method: "POST", headers: { "Content-Type": "application/json" } })
-      .then(res => res.json())
-      .then(data => {
-        const code = data.code;
-        document.getElementById('code').innerText = '✅ تم الدفع بنجاح. استخدم هذا الكود في بوت تيليجرام: ' + code;
-      })
-      .catch(() => {
-        document.getElementById('code').innerText = 'حدث خطأ أثناء توليد الكود.';
-      });
-    });
-  }
-}).render('#paypal-button-container');
-</script>
+  <script>
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{ amount: { value: '10.00' } }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // بعد الدفع الناجح، توجه المستخدم لصفحة النجاح
+          window.location.href = "/paypal_success";
+        });
+      },
+      onCancel: function () {
+        alert("❌ تم إلغاء عملية الدفع.");
+      },
+      onError: function (err) {
+        alert("⚠️ حدث خطأ أثناء الدفع.");
+        console.error(err);
+      }
+    }).render('#paypal-button-container');
+  </script>
 </body>
 </html>
