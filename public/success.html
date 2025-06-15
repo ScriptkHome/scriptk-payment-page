@@ -4,20 +4,18 @@
   <meta charset="UTF-8" />
   <title>تم الدفع بنجاح</title>
 </head>
-<body>
-  <h1>🎉 شكراً لدفعك!</h1>
-  <p>كود التحميل الخاص بك هو:</p>
-  <h2 id="code" style="color:green;"></h2>
+<body style="text-align:center; font-family:Arial; margin-top:50px;">
+  <h1 style="color:green;">✅ تم الدفع بنجاح</h1>
+  <p style="font-size:20px;">استخدم الكود التالي في بوت تيليجرام:</p>
+  <h2 id="code" style="color:blue;"></h2>
 
   <script>
-    // قراءة الكود من الرابط
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-
-    if(code) {
-      document.getElementById('code').innerText = code;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    if (code) {
+      document.getElementById("code").innerText = code;
     } else {
-      document.getElementById('code').innerText = "لم يتم العثور على كود!";
+      document.getElementById("code").innerText = "لم يتم توليد كود.";
     }
   </script>
 </body>
