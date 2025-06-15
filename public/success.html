@@ -2,24 +2,22 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>نجاح الدفع</title>
+  <title>تم الدفع بنجاح</title>
 </head>
-<body style="text-align:center; font-family:Arial;margin-top:50px;">
-  <h1>✅ تم الدفع بنجاح!</h1>
-  <p id="code" style="font-size:20px; color:green;"></p>
+<body>
+  <h1>🎉 شكراً لدفعك!</h1>
+  <p>كود التحميل الخاص بك هو:</p>
+  <h2 id="code" style="color:green;"></h2>
 
   <script>
-    // دالة لاستقبال قيمة الكود من رابط الصفحة
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+    // قراءة الكود من الرابط
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
 
-    const code = getQueryParam('code');
-    if (code) {
-      document.getElementById('code').innerText = 'أرسل هذا الكود للبوت في تيليجرام: ' + code;
+    if(code) {
+      document.getElementById('code').innerText = code;
     } else {
-      document.getElementById('code').innerText = 'لا يوجد كود متاح.';
+      document.getElementById('code').innerText = "لم يتم العثور على كود!";
     }
   </script>
 </body>
