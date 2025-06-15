@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <title>شراء سكربت Vigor</title>
-  <script src="https://www.paypal.com/sdk/js?client-id=AY84vwqpeb1Bs4J6PZszasqaZz8MXSYOtGahrIVMsI2ta-UiEAKdrV3jmECUa3AhsCnyVzW5LnZrOt6o&currency=USD"></script>
+<meta charset="UTF-8" />
+<title>شراء السكربت</title>
+<script src="https://www.paypal.com/sdk/js?client-id=AY84vwqpeb1Bs4J6PZszasqaZz8MXSYOtGahrIVMsI2ta-UiEAKdrV3jmECUa3AhsCnyVzW5LnZrOt6o&currency=USD"></script>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
-  <h1>✅ سكربت Vigor 2025 - 10 دولار</h1>
-  <div id="paypal-button-container"></div>
-  <p id="message" style="color:green; font-size:18px; margin-top:20px;"></p>
+<h1>شراء سكربت بسعر 10$</h1>
+<div id="paypal-button-container"></div>
+<p id="code" style="color:green; font-size:20px; margin-top:20px;"></p>
 
-  <script>
-    paypal.Buttons({
-      createOrder: function(data, actions) {
-        return actions.order.create({
-          purchase_units: [{ amount: { value: '10.00' } }]
-        });
-      },
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-          // طلب توليد كود من السيرفر بعد الدفع الناجح
-          fetch('https://your-server-url/generate_code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-          })
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('message').innerText = 
-              "✅ تم الدفع بنجاح! استخدم الكود التالي في بوت التيليجرام:\n" + data.code;
-          })
-          .catch(err => {
-            document.getElementById('message').innerText = "حدث خطأ، حاول لاحقًا.";
-          });
-        });
-      },
-      onError: function(err) {
-        document.getElementById('message').innerText = "حدث خطأ في عملية الدفع.";
-      }
-    }).render('#paypal-button-container');
-  </script>
+<script>
+paypal.Buttons({
+  createOrder: function(data, actions) {
+    return actions.order.create({
+      purchase_units: [{ amount: { value: '10.00' } }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      // طلب توليد كود من سيرفرك
+      fetch('http://your-server-address/generate-code', {
+        method: 'POST',
+      })
+      .then(res => res.json())
+      .then(data => {
+        const code = data.code;
+        document.getElementById('code').innerText = '✅ تم الدفع بنجاح. استخدم هذا الكود في بوت تيليجرام: ' + code;
+      })
+      .catch(() => {
+        document.getElementById('code').innerText = 'حدث خطأ أثناء توليد الكود.';
+      });
+    });
+  }
+}).render('#paypal-button-container');
+</script>
 </body>
 </html>
