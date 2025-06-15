@@ -20,9 +20,7 @@ paypal.Buttons({
   onApprove: function(data, actions) {
     return actions.order.capture().then(function(details) {
       // طلب توليد كود من سيرفرك
-      fetch('https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev/generate-code', {
-        method: 'POST',
-      })
+    fetch("/generate-code", { method: "POST", headers: { "Content-Type": "application/json" } })
       .then(res => res.json())
       .then(data => {
         const code = data.code;
