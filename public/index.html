@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>شراء سكربت Vigor</title>
+  <title>شراء سكربت Vigor - PayPal فقط</title>
   <script src="https://www.paypal.com/sdk/js?client-id=AY84vwqpeb1Bs4J6PZszasqaZz8MXSYOtGahrIVMsI2ta-UiEAKdrV3jmECUa3AhsCnyVzW5LnZrOt6o&currency=SAR"></script>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
@@ -20,23 +20,33 @@
     paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
-          purchase_units: [{ amount: { value: '10.00' } }]
+          purchase_units: [{
+            amount: {
+              value: '10.00'  // سعر المنتج
+            }
+          }]
         });
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
           const code = generateCode();
 
+          // عرض كود الدفع للمستخدم
           document.getElementById("code").innerText =
             "✅ تم الدفع بنجاح. أرسل الكود التالي للبوت في تيليجرام: " + code;
 
-          // أرسل الكود للسيرفر (تأكد تغير الرابط إلى رابط سيرفرك الفعلي)
-          fetch("https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev/store-code", {
+          // إرسال الكود للسيرفر (اختياري، إذا عندك API تستقبل الكود)
+          /*
+          fetch("https://your-server-url/store-code", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code })
           });
+          */
         });
+      },
+      onError: function(err) {
+        alert('❌ حدث خطأ أثناء الدفع: ' + err);
       }
     }).render('#paypal-button-container');
   </script>
