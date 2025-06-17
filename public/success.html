@@ -1,21 +1,21 @@
+<!-- static/success.html -->
 <!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>تم الدفع بنجاح</title>
+  <title>تم الشراء</title>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
-  <h1 style="color:green;">✅ تم الدفع بنجاح</h1>
-  <p style="font-size:20px;">استخدم الكود التالي في بوت تيليجرام:</p>
-  <h2 id="code" style="color:blue;"></h2>
+  <h1>🎉 تم الشراء بنجاح</h1>
+  <p id="code" style="font-size: 20px; color: green;"></p>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('id');
     if (code) {
-      document.getElementById("code").innerText = code;
+      document.getElementById('code').innerText = 'كودك هو: ' + code;
     } else {
-      document.getElementById("code").innerText = "لم يتم توليد كود.";
+      document.getElementById('code').innerText = 'لم يتم العثور على الكود.';
     }
   </script>
 </body>
