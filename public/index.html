@@ -1,3 +1,4 @@
+<!-- static/index.html -->
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -8,6 +9,7 @@
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
   <h1>شراء سكربت بسعر 10$</h1>
   <div id="paypal-button-container"></div>
+  <p id="code" style="color:green; font-size:20px; margin-top:20px;"></p>
 
   <script>
     paypal.Buttons({
@@ -18,19 +20,18 @@
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
-          // بعد نجاح الدفع، اطلب توليد كود من السيرفر
           fetch("/generate-code", {
             method: "POST",
             headers: { "Content-Type": "application/json" }
           })
-          .then(response => response.json())
+          .then(res => res.json())
           .then(data => {
             const code = data.code;
-            // التوجيه إلى صفحة النجاح مع الكود في الرابط
+            // توجيه إلى صفحة success.html مع الكود
             window.location.href = "/success.html?id=" + code;
           })
           .catch(() => {
-            alert("❌ فشل في توليد الكود");
+            document.getElementById('code').innerText = 'حدث خطأ أثناء توليد الكود.';
           });
         });
       }
