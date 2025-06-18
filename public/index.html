@@ -8,24 +8,15 @@
     body {
       text-align: center;
       font-family: Arial, sans-serif;
-      margin-top: 50px;
-      padding: 0 20px;
-    }
-    input {
-      padding: 10px;
-      font-size: 16px;
-      width: 320px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      margin-top: 80px;
     }
     button {
-      font-size: 20px;
-      padding: 12px 25px;
+      font-size: 24px;
+      padding: 15px 40px;
       background-color: #6772e5;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -33,64 +24,36 @@
       background-color: #5469d4;
     }
     #status {
-      color: green;
-      font-size: 18px;
       margin-top: 20px;
+      font-size: 18px;
       min-height: 24px;
-    }
-    .info {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 30px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.4;
+      color: green;
     }
   </style>
 </head>
 <body>
+
   <h1>شراء سكربت بسعر 10 ريال</h1>
 
-  <div class="info">
-    لمعرفة معرف Telegram الخاص بك:<br>
-    1. افتح البوت في Telegram<br>
-    2. أرسل أي رسالة<br>
-    3. سيرد عليك البوت برسالة تحتوي على رقم معرفك (ID)<br>
-    4. انسخ هذا الرقم والصقه هنا
-  </div>
-
-  <input type="text" id="telegram_id" placeholder="أدخل معرفك في Telegram (مثلاً: 123456789)" />
-  <br>
   <button id="pay-button">ادفع الآن</button>
   <p id="status"></p>
 
   <script>
-    const stripe = Stripe("pk_test_XXXXXXXXXXXXXXXXXXXXXXXX"); // استبدل بمفتاح Stripe الحقيقي
+    const stripe = Stripe("pk_test_XXXXXXXXXXXXXXXXXXXXXXXX"); // مفتاح Stripe الخاص بك
 
     document.getElementById("pay-button").addEventListener("click", () => {
-      const telegramId = document.getElementById("telegram_id").value.trim();
-
-      if (!telegramId) {
-        document.getElementById("status").style.color = "red";
-        document.getElementById("status").innerText = "⚠️ الرجاء إدخال معرف Telegram الخاص بك.";
-        return;
-      }
-
       document.getElementById("status").style.color = "green";
       document.getElementById("status").innerText = "جاري إنشاء طلب الدفع...";
 
-      fetch("https://your-server-url.com/create-checkout-session", { // استبدل بالرابط الفعلي لسيرفرك
+      fetch("https://your-server-url.com/create-checkout-session", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ telegram_id: telegramId }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}), // لا نرسل أي بيانات
       })
         .then(res => res.json())
         .then(data => {
           if (data.id) {
-            return stripe.redirectToCheckout({ sessionId: data.id });
+            stripe.redirectToCheckout({ sessionId: data.id });
           } else {
             document.getElementById("status").style.color = "red";
             document.getElementById("status").innerText = "❌ فشل إنشاء جلسة الدفع.";
