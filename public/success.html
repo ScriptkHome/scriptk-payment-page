@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>نجاح الدفع</title>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
   <h1>✅ تم الدفع بنجاح</h1>
-  <p id="code" style="font-size:24px; color:green;"></p>
+  <p id="code" style="font-size:24px; color:green;">جاري جلب الكود الخاص بك...</p>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const code = params.get("id");
+    const sessionId = params.get("session_id");
+    const codeElem = document.getElementById("code");
 
-    if (code) {
-      document.getElementById("code").innerText =
-        "الكود الخاص بك: " + code;
+    if (sessionId) {
+      fetch(`https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/get-code/${sessionId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.code) {
+            codeElem.innerText = "الكود الخاص بك: " + data.code;
+          } else {
+            codeElem.innerText = "❌ لم يتم العثور على الكود.";
+            codeElem.style.color = "red";
+          }
+        })
+        .catch(() => {
+          codeElem.innerText = "❌ حدث خطأ أثناء جلب الكود.";
+          codeElem.style.color = "red";
+        });
     } else {
-      document.getElementById("code").innerText =
-        "لم يتم العثور على الكود.";
+      codeElem.innerText = "❌ لم يتم تمرير معرف الجلسة.";
+      codeElem.style.color = "red";
     }
   </script>
 </body>
