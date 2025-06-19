@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>نجاح الدفع</title>
+  <style>
+    body { text-align: center; font-family: Arial, sans-serif; margin-top: 80px; }
+    #code { font-size: 24px; color: green; }
+  </style>
 </head>
-<body style="text-align:center; font-family:Arial; margin-top:50px;">
+<body>
   <h1>✅ تم الدفع بنجاح</h1>
-  <p id="code" style="font-size:24px; color:green;">جاري تحميل الكود...</p>
+  <p id="code">جاري جلب الكود الخاص بك...</p>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
 
     if (!sessionId) {
-      document.getElementById("code").innerText = "❌ لا يوجد session ID في الرابط.";
+      document.getElementById("code").innerText = "❌ لم يتم العثور على معرف الجلسة.";
     } else {
-      fetch("https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev:5000/get-code/" + sessionId)
-        .then(res => res.json())
+      fetch(`https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev/get-code/${sessionId}`)
+        .then(res => {
+          if (!res.ok) throw new Error("الكود غير موجود");
+          return res.json();
+        })
         .then(data => {
-          if (data.code) {
-            document.getElementById("code").innerText = "🔑 الكود الخاص بك: " + data.code;
-          } else {
-            document.getElementById("code").innerText = "❌ لم يتم العثور على الكود.";
-          }
+          document.getElementById("code").innerText = "الكود الخاص بك: " + data.code;
         })
         .catch(() => {
-          document.getElementById("code").innerText = "❌ حدث خطأ أثناء جلب الكود.";
+          document.getElementById("code").innerText = "❌ لم يتم العثور على الكود.";
         });
     }
   </script>
