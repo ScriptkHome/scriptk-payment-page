@@ -18,7 +18,6 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
     button:hover {
       background-color: #5469d4;
@@ -32,29 +31,24 @@
   </style>
 </head>
 <body>
-
   <h1>شراء سكربت بسعر 10 ريال</h1>
-
   <button id="pay-button">ادفع الآن</button>
   <p id="status"></p>
 
   <script>
-    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP");
+    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // مفتاح النشر من Stripe
 
     document.getElementById("pay-button").addEventListener("click", () => {
-      document.getElementById("status").style.color = "green";
-      document.getElementById("status").innerText = "جاري إنشاء طلب الدفع...";
+      document.getElementById("status").innerText = "⏳ جاري التحميل...";
 
       fetch("https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev:5000/create-checkout-session", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       })
         .then(res => res.json())
         .then(data => {
           if (data.id) {
-            window.location.href = "success.html?id=" + data.id;
+            stripe.redirectToCheckout({ sessionId: data.id });
           } else {
             document.getElementById("status").innerText = "❌ فشل إنشاء جلسة الدفع.";
           }
@@ -62,7 +56,7 @@
         .catch(() => {
           document.getElementById("status").innerText = "❌ حدث خطأ أثناء الاتصال بالسيرفر.";
         });
-    }); // ← ✅ هذا القوس كان ناقص
+    });
   </script>
 </body>
 </html>
