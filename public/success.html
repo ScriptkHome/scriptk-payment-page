@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>نجاح الدفع</title>
 </head>
 <body style="text-align:center; font-family:Arial; margin-top:50px;">
   <h1>✅ تم الدفع بنجاح</h1>
-  <p id="code" style="font-size:24px; color:green;">جاري جلب الكود الخاص بك...</p>
+  <p id="code" style="font-size:24px; color:green;">جاري تحميل الكود...</p>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
-    const codeElem = document.getElementById("code");
 
-    if (sessionId) {
-      fetch(`https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/get-code/${sessionId}`)
-        .then(response => response.json())
+    if (!sessionId) {
+      document.getElementById("code").innerText = "❌ لا يوجد session ID في الرابط.";
+    } else {
+      fetch("https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev:5000/get-code/" + sessionId)
+        .then(res => res.json())
         .then(data => {
           if (data.code) {
-            codeElem.innerText = "الكود الخاص بك: " + data.code;
+            document.getElementById("code").innerText = "🔑 الكود الخاص بك: " + data.code;
           } else {
-            codeElem.innerText = "❌ لم يتم العثور على الكود.";
-            codeElem.style.color = "red";
+            document.getElementById("code").innerText = "❌ لم يتم العثور على الكود.";
           }
         })
         .catch(() => {
-          codeElem.innerText = "❌ حدث خطأ أثناء جلب الكود.";
-          codeElem.style.color = "red";
+          document.getElementById("code").innerText = "❌ حدث خطأ أثناء جلب الكود.";
         });
-    } else {
-      codeElem.innerText = "❌ لم يتم تمرير معرف الجلسة.";
-      codeElem.style.color = "red";
     }
   </script>
 </body>
