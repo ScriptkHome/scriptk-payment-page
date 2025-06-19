@@ -5,45 +5,31 @@
   <title>شراء السكربت</title>
   <script src="https://js.stripe.com/v3/"></script>
   <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin-top: 80px;
-    }
+    body { text-align: center; font-family: Arial, sans-serif; margin-top: 80px; }
     button {
-      font-size: 24px;
-      padding: 15px 40px;
-      background-color: #6772e5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      font-size: 24px; padding: 15px 40px;
+      background-color: #6772e5; color: white;
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #5469d4;
-    }
-    #status {
-      margin-top: 20px;
-      font-size: 18px;
-      min-height: 24px;
-      color: green;
-    }
+    button:hover { background-color: #5469d4; }
+    #status { margin-top: 20px; font-size: 18px; min-height: 24px; color: green; }
   </style>
 </head>
 <body>
-  <h1>شراء سكربت بسعر 10 ريال</h1>
+  <h1>شراء سكربت بسعر 20.99 ريال</h1>
   <button id="pay-button">ادفع الآن</button>
   <p id="status"></p>
 
   <script>
-    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // مفتاح النشر من Stripe
+    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // مفتاح Stripe للنشر
 
     document.getElementById("pay-button").addEventListener("click", () => {
-      document.getElementById("status").innerText = "⏳ جاري التحميل...";
+      document.getElementById("status").innerText = "جاري إنشاء طلب الدفع...";
 
       fetch("https://02bb4407-7063-4c06-87f3-d2ce60417405-00-3e14w92bxrmda.pike.replit.dev/create-checkout-session", {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       })
         .then(res => res.json())
         .then(data => {
