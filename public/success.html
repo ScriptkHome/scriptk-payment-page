@@ -68,7 +68,7 @@
     if (!sessionId) {
       document.getElementById("code").innerText = "❌ لم يتم العثور على معرف الجلسة.";
     } else {
-      fetch(`https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/check-session/${sessionId}`)
+      fetch(`https://scriptk-backend-1.onrender.com/check-session/${sessionId}`)
         .then(res => {
           if (!res.ok) throw new Error("الكود غير موجود");
           return res.json();
