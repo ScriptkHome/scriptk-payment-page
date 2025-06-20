@@ -246,7 +246,7 @@
     document.getElementById("status").innerText = "جاري تجهيز الدفع...";
     document.getElementById("status").style.color = "green";
 
-    fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/create-checkout-session", {
+    fetch("https://scriptk-backend-1.onrender.com/create-checkout-session/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ product: scriptName }),
