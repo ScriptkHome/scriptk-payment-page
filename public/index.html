@@ -2,67 +2,54 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>شراء السكربت</title>
+  <title>شراء السكربتات</title>
   <script src="https://js.stripe.com/v3/"></script>
   <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin-top: 80px;
-    }
+    body { text-align: center; font-family: Arial, sans-serif; margin-top: 80px; }
     button {
-      font-size: 24px;
+      font-size: 22px;
       padding: 15px 40px;
+      margin: 15px;
       background-color: #6772e5;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
-    button:hover {
-      background-color: #5469d4;
-    }
-    #status {
-      margin-top: 20px;
-      font-size: 18px;
-      min-height: 24px;
-      color: green;
-    }
+    button:hover { background-color: #5469d4; }
+    #status { margin-top: 20px; font-size: 18px; min-height: 24px; color: green; }
   </style>
 </head>
 <body>
 
-  <h1>شراء سكربت بسعر 20.99 ريال</h1>
-
-  <button id="pay-button">ادفع الآن</button>
+  <h1>اختر السكربت الذي تريد شراءه</h1>
+  <button onclick="buyScript('vigor')">شراء سكربت Vigor (10 ريال)</button>
+  <button onclick="buyScript('fortnite')">شراء سكربت Fortnite (15 ريال)</button>
   <p id="status"></p>
 
   <script>
-    const stripe = Stripe("pk_test_51RZsOiPK23Ddb61ouhcUvrV5bMIeRRNJiVq8SvskqDQfUZRnSJVNQ7Kc2GX1LzytgpERW6ycW7xUnblcnWc6S4qi00vctbVmAP"); // حط مفتاح النشر الخاص بك هنا
+    const stripe = Stripe("pk_test_..."); // ضع مفتاحك هنا
 
-    document.getElementById("pay-button").addEventListener("click", () => {
-      document.getElementById("status").style.color = "green";
-      document.getElementById("status").innerText = "جاري إنشاء طلب الدفع...";
+    function buyScript(scriptName) {
+      document.getElementById("status").innerText = "جاري تجهيز الدفع...";
 
-      fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/create-checkout-session", {  // استبدل برابط سيرفرك
+      fetch("https://b83d3b1e-137d-4042-9a36-7056a84abd67-00-1lt8ee0wh97b.pike.replit.dev/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product: scriptName }),
       })
       .then(res => res.json())
       .then(data => {
         if (data.id) {
-          return stripe.redirectToCheckout({ sessionId: data.id });
+          stripe.redirectToCheckout({ sessionId: data.id });
         } else {
-          document.getElementById("status").style.color = "red";
-          document.getElementById("status").innerText = "❌ فشل إنشاء جلسة الدفع.";
+          document.getElementById("status").innerText = "❌ فشل في إنشاء جلسة الدفع.";
         }
       })
       .catch(() => {
-        document.getElementById("status").style.color = "red";
-        document.getElementById("status").innerText = "❌ حدث خطأ أثناء الاتصال بالسيرفر.";
+        document.getElementById("status").innerText = "❌ خطأ في الاتصال بالسيرفر.";
       });
-    });
+    }
   </script>
 </body>
 </html>
